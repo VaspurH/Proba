@@ -6,6 +6,7 @@ import time
 import pygame
 
 t = 0
+music = False
 
 def set():
     global t
@@ -35,9 +36,19 @@ def check():
 
 
 def play_snd():
+    global music
+    music = True
     pygame.mixer.init()
     pygame.mixer.music.load("reminder.mp3")   #можно поставить сюдадругую музыку
     pygame.mixer.music.play()
+
+
+def stop_music():
+    global  misic
+    if music:
+        pygame.mixer.music.stop()
+        music = False
+    label.confg(text="Установить новое напоминание")
 
 
 window = Tk()
@@ -46,6 +57,9 @@ label = Label(text="Установите напоминание", font=("Arial",
 label.pack(pady=10)
 set_button = Button(text="Установить напоминание", command=set)
 set_button.pack()
+
+stop_button = Button(text="Остановить музыку", command=stop_music)
+stop_button.pack(pady=10)
 
 check()
 
