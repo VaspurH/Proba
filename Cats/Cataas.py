@@ -4,10 +4,10 @@ import requests
 from io import BytesIO
 
 
-def load_image():
+def load_image(url):
     try:
-        resource = requests.get(url)
-        resource.raise_for_status()
+        response = requests.get(url)
+        response.raise_for_status()
         image_data = BytesIO(response.content)
         img = Image.open(image_data)
         return ImageTk.PhotoImage(img)
@@ -16,18 +16,25 @@ def load_image():
         return None
 
 
-window = TK()
+def set_image():
+    img = load_image(url)
+
+    if img:
+        label.config(image=img)
+        label.image = img
+
+window = Tk()
 window.title("Cats!")
-window.geometr("600x480")
+window.geometry("600x480")
 
 label = Label()
 label.pack()
 
-url = "https://cataas.com/cat"
-img = load_image(url)
+update_button = Button(text="Обновить", command=set_image)
+update_button.pack()
 
-if img:
-    label.config(image=img)
-    label.img = img
+url = "https://cataas.com/cat"
+set_image()
+
 
 window.mainloop()
